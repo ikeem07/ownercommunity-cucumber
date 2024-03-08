@@ -66,34 +66,30 @@ Feature: HOA Staff
       When she removes a booking schedule for a property from the community
       Then the booking schedule is successfully removed from the property
 
-  Rule: HOA staff cannot modify booking schedules in the past [ToDo: Add rule to business requirements]
+  Rule: HOA staff cannot modify booking schedules in the past
 
     Scenario: An HOA staff member attempts to update a booking schedule for a shared resource for their community in the past.
-      Given the user is a member of the community
-      And the user is an HOA staff member
-      And the booking schedule is in the past
-      When the user attempts to update a booking schedule for a shared resource for their community
+      Given Sarah is a member of the Fresh Springs community
+      And a shared resource has a booking schedule that is in the past
+      When she attempts to update the booking schedule for the shared resource for the community
       Then the booking schedule is not successfully updated for the shared resource
 
     Scenario: An HOA staff member attempts to remove a booking schedule for a shared resource from their community in the past.
-      Given the user is a member of the community
-      And the user is an HOA staff member
-      And the booking schedule is in the past
-      When the user attempts to remove a booking schedule for a shared resource from their community
+      Given Sarah is a member of the Fresh Springs community
+      And a shared resource has a booking schedule that is in the past
+      When she attempts to remove the booking schedule for the shared resource for the community
       Then the booking schedule is not successfully removed from the shared resource
 
     Scenario: An HOA staff member attempts to update a booking schedule for a property for their community in the past.
-      Given the user is a member of the community
-      And the user is an HOA staff member
-      And the booking schedule is in the past
-      When the user attempts to update a booking schedule for a property for their community
+      Given Sarah is a member of the Fresh Springs community
+      And a property has a booking schedule that is in the past
+      When she attempts to update the booking schedule for the property for the community
       Then the booking schedule is not successfully updated for the property
 
     Scenario: An HOA staff member attempts to remove a booking schedule for a property from their community in the past.
-      Given the user is a member of the community
-      And the user is an HOA staff member
-      And the booking schedule is in the past
-      When the user attempts to remove a booking schedule for a property from their community
+      Given Sarah is a member of the Fresh Springs community
+      And a property has a booking schedule that is in the past
+      When she attempts to remove the booking schedule for the property from their community
       Then the booking schedule is not successfully removed from the property
 
     
