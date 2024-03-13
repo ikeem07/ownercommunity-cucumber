@@ -42,8 +42,9 @@ Feature: Property Owner
       When he updates a booking schedule for the property with a past date
       Then the booking schedule should not be updated successfully
 
+    @tryThis
     Scenario: Property owner updates a booking schedule for their property that overlaps with an existing schedule
-      Given John has a property listed with a booking schedule
+      Given John has a property listed with two booking schedules
       When he updates a booking schedule for the property that overlaps with an existing schedule
       Then the booking schedule should not be updated successfully
 

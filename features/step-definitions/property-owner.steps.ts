@@ -1,5 +1,5 @@
 import { Before, Given, When, Then } from '@cucumber/cucumber';
-import { Actor } from '@serenity-js/core';
+import { Actor, TakeNotes } from '@serenity-js/core';
 import { Community } from '../classes/community';
 import { Property } from '../classes/property';
 import { BookingSchedule } from '../classes/booking-schedule';
@@ -18,6 +18,27 @@ Given('{actor} has a property listed with a booking schedule', function (actor: 
   endDate.setDate(endDate.getDate() + 7);
 
   this.community.addProperty(new Property('My Property', [actor], true, [new BookingSchedule(new Date(), endDate)]));
+});
+
+Given('{actor} has a property listed with two booking schedules', function (actor: Actor) {
+  const endDate1 = new Date()
+  const startDate2 = new Date()
+  const endDate2 = new Date()
+  endDate1.setDate(endDate1.getDate() + 7);
+  startDate2.setDate(startDate2.getDate() + 15);
+  endDate2.setDate(endDate2.getDate() + 21);
+
+  this.community.addProperty(
+    new Property(
+      'My Property', 
+      [actor], 
+      true, 
+      [
+        new BookingSchedule(new Date(), endDate1), 
+        new BookingSchedule(startDate2, endDate2)
+      ]
+    )
+  );
 });
 
 When('{pronoun} creates a booking schedule for the property', function (actor: Actor) {
@@ -66,10 +87,25 @@ When('{pronoun} updates a booking schedule for the property', function (actor: A
 When('{pronoun} updates a booking schedule for the property with a past date', function (actor: Actor) {
   this.currentBookingStartDate = this.community.propertyList[0].bookingSchedule[0].startDate;
   this.currentBookingEndDate = this.community.propertyList[0].bookingSchedule[0].endDate;
-  const startDate = new Date()
+  const startDate = new Date();
   startDate.setDate(startDate.getDate() - 7);
-  const endDate = new Date()
+  const endDate = new Date();
   endDate.setDate(endDate.getDate() + 2);
+
+  const property = this.community.propertyList[0];
+
+  if (property.owners.includes(actor)) {
+    property.updateBookinhSchedule(0, startDate, endDate);
+  }
+});
+
+When('{pronoun} updates a booking schedule for the property that overlaps with an existing schedule', function (actor: Actor) {
+  this.currentBookingStartDate = this.community.propertyList[0].bookingSchedule[0].startDate;
+  this.currentBookingEndDate = this.community.propertyList[0].bookingSchedule[0].endDate;
+  const startDate = new Date();
+  startDate.setDate(this.community.propertyList[0].bookingSchedule[1].startDate.getDate() + 1);
+  const endDate = new Date();
+  endDate.setDate(this.community.propertyList[0].bookingSchedule[1].endDate.getDate() - 1);
 
   const property = this.community.propertyList[0];
 
@@ -96,6 +132,7 @@ Then('the booking schedule should be updated successfully', function () {
 });
 
 Then('the booking schedule should not be updated successfully', function () {
+  console.log('BOOKING LIST', this.community.propertyList[0].bookingSchedule);
   assert.strictEqual(this.community.propertyList[0].bookingSchedule[0].startDate, this.currentBookingStartDate);
   assert.strictEqual(this.community.propertyList[0].bookingSchedule[0].endDate, this.currentBookingEndDate);
 });
