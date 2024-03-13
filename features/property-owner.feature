@@ -43,22 +43,22 @@ Feature: Property Owner
       Then the booking schedule should not be updated successfully
 
     Scenario: Property owner updates a booking schedule for their property that overlaps with an existing schedule
-      Given John has a property listed for rent
+      Given John has a property listed with a booking schedule
       When he updates a booking schedule for the property that overlaps with an existing schedule
       Then the booking schedule should not be updated successfully
 
     Scenario: Property owner updates the start date of a booking schedule for their property, which includes past dates
-      Given John has a property listed for rent
+      Given John has a property listed with a booking schedule
       When he updates the start date of a booking schedule for the property, which includes past dates
       Then the booking schedule should not be updated successfully
 
     Scenario: Property owner updates the end date of a booking schedule for their property, which includes past dates
-      Given John has a property listed for rent
+      Given John has a property listed with a booking schedule
       When he updates the end date of a booking schedule for the property, which includes past dates
       Then the booking schedule should be updated successfully
 
     Scenario: Property owner updates a booking schedule for their property with a past start date and end date
-      Given John has a property listed for rent
+      Given John has a property listed with a booking schedule
       When he updates a booking schedule for the property with a past start date and end date
       Then the booking schedule should not be updated successfully
 
