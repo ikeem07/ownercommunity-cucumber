@@ -13,6 +13,10 @@ Given('{actor} has a property listed', function (actor: Actor) {
   this.community.addProperty(new Property('My Property', [actor], true));
 });
 
+Given('{actor} has a property listed with a booking schedule', function (actor: Actor) {
+  this.community.addProperty(new Property('My Property', [actor], true, [new BookingSchedule(new Date(), new Date())]));
+});
+
 When('{pronoun} creates a booking schedule for the property', function (actor: Actor) {
   const startDate = new Date()
   startDate.setDate(startDate.getDate() + 1);
@@ -47,5 +51,9 @@ Then('the booking schedule should be created successfully', function () {
 
 Then('the booking schedule should not be created successfully', function () {
   assert.strictEqual(this.community.propertyList[0].bookingSchedule.length, 0);
+});
+
+Then('the second booking schedule should be created successfully', function () {
+  assert.strictEqual(this.community.propertyList[0].bookingSchedule.length, 2);
 });
 

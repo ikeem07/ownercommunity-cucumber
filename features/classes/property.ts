@@ -10,12 +10,13 @@ class Property {
   constructor(
       name: string, 
       owners: Actor[] = [], 
-      isListed: boolean = false
+      isListed: boolean = false,
+      bookingScheduleList: BookingSchedule[] = []
     ) {
     this._name = name;
     this._owners = owners;
     this._isListed = isListed;
-    this._bookingScheduleList = [];
+    this._bookingScheduleList = bookingScheduleList;
   }
 
   get owners() {
@@ -33,6 +34,8 @@ class Property {
       }
     }
   }
+
+  addGeneric
 }
 
 export { Property };

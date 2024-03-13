@@ -16,9 +16,10 @@ Feature: Property Owner
       When he creates a booking schedule for the property with a past date
       Then the booking schedule should not be created successfully
 
+    @tryThis
     Scenario: Property owner creates a second booking schedule for their property
-      Given John has a property listed
-      When he creates a second booking schedule for the property
+      Given John has a property listed with a booking schedule
+      When he creates a booking schedule for the property
       Then the second booking schedule should be created successfully
 
     Scenario: Property owner creates a booking schedule for their property that overlaps with an existing schedule
