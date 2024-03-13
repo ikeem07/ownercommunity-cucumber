@@ -63,6 +63,21 @@ When('{pronoun} updates a booking schedule for the property', function (actor: A
   }
 });
 
+When('{pronoun} updates a booking schedule for the property with a past date', function (actor: Actor) {
+  this.currentBookingStartDate = this.community.propertyList[0].bookingSchedule[0].startDate;
+  this.currentBookingEndDate = this.community.propertyList[0].bookingSchedule[0].endDate;
+  const startDate = new Date()
+  startDate.setDate(startDate.getDate() - 7);
+  const endDate = new Date()
+  endDate.setDate(endDate.getDate() + 2);
+
+  const property = this.community.propertyList[0];
+
+  if (property.owners.includes(actor)) {
+    property.updateBookinhSchedule(0, startDate, endDate);
+  }
+});
+
 Then('the booking schedule should be created successfully', function () {
   assert.strictEqual(this.community.propertyList[0].bookingSchedule.length, 1);
 });
@@ -78,5 +93,10 @@ Then('the second booking schedule should be created successfully', function () {
 Then('the booking schedule should be updated successfully', function () {
   assert.strictEqual(this.community.propertyList[0].bookingSchedule[0].startDate, this.bookingStartDate);
   assert.strictEqual(this.community.propertyList[0].bookingSchedule[0].endDate, this.bookingEndDate);
+});
+
+Then('the booking schedule should not be updated successfully', function () {
+  assert.strictEqual(this.community.propertyList[0].bookingSchedule[0].startDate, this.currentBookingStartDate);
+  assert.strictEqual(this.community.propertyList[0].bookingSchedule[0].endDate, this.currentBookingEndDate);
 });
 

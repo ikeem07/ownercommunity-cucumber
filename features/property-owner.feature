@@ -36,8 +36,9 @@ Feature: Property Owner
       When he updates a booking schedule for the property
       Then the booking schedule should be updated successfully
 
+    @tryThis
     Scenario: Property owner updates a booking schedule for their property with a past date
-      Given John has a property listed for rent
+      Given John has a property listed with a booking schedule
       When he updates a booking schedule for the property with a past date
       Then the booking schedule should not be updated successfully
 
