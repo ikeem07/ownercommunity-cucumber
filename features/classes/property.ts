@@ -43,6 +43,23 @@ class Property {
       }
     }
   }
+
+  updateBookinhSchedule(index: number, startDate: Date, endDate: Date) {
+    // check if the end date is greater than or equal to the start date
+    if (endDate >= startDate) {
+      // check if the start date and end date are today or in the future
+      if (endDate >= new Date() && startDate >= new Date()) {
+        // check for overlapping schedules
+        const overlapping = this._bookingScheduleList.some((existingSchedule, i) => {
+          return (i !== index && startDate < existingSchedule.endDate && endDate > existingSchedule.startDate);
+        });
+        // if there are no overlapping schedules, update the schedule
+        if (!overlapping) {
+          this._bookingScheduleList[index] = new BookingSchedule(startDate, endDate);
+        }
+      }
+    }
+  }
 }
 
 export { Property };

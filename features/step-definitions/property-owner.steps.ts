@@ -48,6 +48,21 @@ When('{pronoun} creates a booking schedule for the property with a past date', f
   }
 });
 
+When('{pronoun} updates a booking schedule for the property', function (actor: Actor) {
+  const startDate = new Date()
+  startDate.setDate(startDate.getDate() + 15);
+  this.bookingStartDate = startDate;
+  const endDate = new Date()
+  endDate.setDate(endDate.getDate() + 21);
+  this.bookingEndDate = endDate;
+
+  const property = this.community.propertyList[0];
+
+  if (property.owners.includes(actor)) {
+    property.updateBookinhSchedule(0, startDate, endDate);
+  }
+});
+
 Then('the booking schedule should be created successfully', function () {
   assert.strictEqual(this.community.propertyList[0].bookingSchedule.length, 1);
 });
@@ -58,5 +73,10 @@ Then('the booking schedule should not be created successfully', function () {
 
 Then('the second booking schedule should be created successfully', function () {
   assert.strictEqual(this.community.propertyList[0].bookingSchedule.length, 2);
+});
+
+Then('the booking schedule should be updated successfully', function () {
+  assert.strictEqual(this.community.propertyList[0].bookingSchedule[0].startDate, this.bookingStartDate);
+  assert.strictEqual(this.community.propertyList[0].bookingSchedule[0].endDate, this.bookingEndDate);
 });
 
