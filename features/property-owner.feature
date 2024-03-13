@@ -4,6 +4,7 @@ Feature: Property Owner
 
   Rule: Property owners can create booking schedules for their properties.
     
+    @tryThis
     Scenario: Property owner creates a booking schedule for their property
       Given John has a property listed
       When he creates a booking schedule for the property
