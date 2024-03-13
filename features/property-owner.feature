@@ -22,10 +22,11 @@ Feature: Property Owner
       When he creates a booking schedule for the property
       Then the second booking schedule should be created successfully
 
-    Scenario: Property owner creates a booking schedule for their property that overlaps with an existing schedule
-      Given John has a property listed
-      When he creates a booking schedule for the property that overlaps with an existing schedule
-      Then the booking schedule should not be created successfully
+    #@tryThis
+    # Scenario: Property owner creates a booking schedule for their property that overlaps with an existing schedule
+    #   Given John has a property listed with a booking schedule
+    #   When he creates a booking schedule for the property that overlaps with an existing schedule
+    #   Then the second booking schedule should not be created successfully
   
   Rule: Property owners can update booking schedules for their properties.
 

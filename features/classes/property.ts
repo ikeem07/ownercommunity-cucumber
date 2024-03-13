@@ -28,14 +28,21 @@ class Property {
   }
 
   addBookingSchedule(bookingSchedule: BookingSchedule) {
+    // check if the end date is greater than or equal to the start date
     if (bookingSchedule.endDate >= bookingSchedule.startDate) {
-      if (bookingSchedule.endDate > new Date() && bookingSchedule.startDate > new Date()) {
-        this._bookingScheduleList.push(bookingSchedule);
+      // check if the start date and end date are today or in the future
+      if (bookingSchedule.endDate >= new Date() && bookingSchedule.startDate >= new Date()) {
+        // check for overlapping schedules
+        const overlapping = this._bookingScheduleList.some(existingSchedule => {
+          return (bookingSchedule.startDate < existingSchedule.endDate && bookingSchedule.endDate > existingSchedule.startDate);
+        });
+        // if there are no overlapping schedules, add the new schedule
+        if (!overlapping) {
+          this._bookingScheduleList.push(bookingSchedule);
+        }
       }
     }
   }
-
-  addGeneric
 }
 
 export { Property };

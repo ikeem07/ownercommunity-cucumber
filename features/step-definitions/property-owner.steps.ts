@@ -14,14 +14,17 @@ Given('{actor} has a property listed', function (actor: Actor) {
 });
 
 Given('{actor} has a property listed with a booking schedule', function (actor: Actor) {
-  this.community.addProperty(new Property('My Property', [actor], true, [new BookingSchedule(new Date(), new Date())]));
+  const endDate = new Date()
+  endDate.setDate(endDate.getDate() + 7);
+
+  this.community.addProperty(new Property('My Property', [actor], true, [new BookingSchedule(new Date(), endDate)]));
 });
 
 When('{pronoun} creates a booking schedule for the property', function (actor: Actor) {
   const startDate = new Date()
-  startDate.setDate(startDate.getDate() + 1);
+  startDate.setDate(startDate.getDate() + 8);
   const endDate = new Date()
-  endDate.setDate(endDate.getDate() + 7);
+  endDate.setDate(endDate.getDate() + 14);
 
   const property = this.community.propertyList[0];
   const bookingSchedule = new BookingSchedule(startDate, endDate);
