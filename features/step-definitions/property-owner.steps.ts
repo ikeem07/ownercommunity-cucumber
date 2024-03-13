@@ -132,7 +132,6 @@ Then('the booking schedule should be updated successfully', function () {
 });
 
 Then('the booking schedule should not be updated successfully', function () {
-  console.log('BOOKING LIST', this.community.propertyList[0].bookingSchedule);
   assert.strictEqual(this.community.propertyList[0].bookingSchedule[0].startDate, this.currentBookingStartDate);
   assert.strictEqual(this.community.propertyList[0].bookingSchedule[0].endDate, this.currentBookingEndDate);
 });
