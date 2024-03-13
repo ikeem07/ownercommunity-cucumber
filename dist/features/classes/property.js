@@ -6,16 +6,20 @@ class Property {
         this._name = name;
         this._owners = owners;
         this._isListed = isListed;
-        this._bookingSchedule = [];
+        this._bookingScheduleList = [];
     }
     get owners() {
         return this._owners;
     }
     get bookingSchedule() {
-        return this._bookingSchedule;
+        return this._bookingScheduleList;
     }
     addBookingSchedule(bookingSchedule) {
-        this._bookingSchedule.push(bookingSchedule);
+        if (bookingSchedule.endDate >= bookingSchedule.startDate) {
+            if (bookingSchedule.endDate > new Date() && bookingSchedule.startDate > new Date()) {
+                this._bookingScheduleList.push(bookingSchedule);
+            }
+        }
     }
 }
 exports.Property = Property;

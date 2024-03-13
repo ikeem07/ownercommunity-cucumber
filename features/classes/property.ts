@@ -5,7 +5,7 @@ class Property {
   private _name: string;
   private _owners: Actor[];
   private _isListed: boolean;
-  private _bookingSchedule: BookingSchedule[];
+  private _bookingScheduleList: BookingSchedule[];
 
   constructor(
       name: string, 
@@ -15,7 +15,7 @@ class Property {
     this._name = name;
     this._owners = owners;
     this._isListed = isListed;
-    this._bookingSchedule = [];
+    this._bookingScheduleList = [];
   }
 
   get owners() {
@@ -23,11 +23,15 @@ class Property {
   }
 
   get bookingSchedule() {
-    return this._bookingSchedule;
+    return this._bookingScheduleList;
   }
 
   addBookingSchedule(bookingSchedule: BookingSchedule) {
-    this._bookingSchedule.push(bookingSchedule);
+    if (bookingSchedule.endDate >= bookingSchedule.startDate) {
+      if (bookingSchedule.endDate > new Date() && bookingSchedule.startDate > new Date()) {
+        this._bookingScheduleList.push(bookingSchedule);
+      }
+    }
   }
 }
 

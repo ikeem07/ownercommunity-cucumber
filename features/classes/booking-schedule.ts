@@ -6,6 +6,14 @@ class BookingSchedule {
     this._startDate = startDate;
     this._endDate = endDate;
   }
+
+  get startDate() {
+    return this._startDate;
+  }
+
+  get endDate() {
+    return this._endDate;
+  }
 }
 
 export { BookingSchedule };

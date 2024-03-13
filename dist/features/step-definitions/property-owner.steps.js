@@ -25,8 +25,21 @@ const assert_1 = __importDefault(require("assert"));
         property.addBookingSchedule(bookingSchedule);
     }
 });
+(0, cucumber_1.When)('{pronoun} creates a booking schedule for the property with a past date', function (actor) {
+    const startDate = new Date();
+    startDate.setDate(startDate.getDate() - 7);
+    const endDate = new Date();
+    endDate.setDate(endDate.getDate() - 1);
+    const property = this.community.propertyList[0];
+    const bookingSchedule = new booking_schedule_1.BookingSchedule(startDate, endDate);
+    if (property.owners.includes(actor)) {
+        property.addBookingSchedule(bookingSchedule);
+    }
+});
 (0, cucumber_1.Then)('the booking schedule should be created successfully', function () {
-    // assert that the booking schedule has been created
     assert_1.default.strictEqual(this.community.propertyList[0].bookingSchedule.length, 1);
+});
+(0, cucumber_1.Then)('the booking schedule should not be created successfully', function () {
+    assert_1.default.strictEqual(this.community.propertyList[0].bookingSchedule.length, 0);
 });
 //# sourceMappingURL=property-owner.steps.js.map
