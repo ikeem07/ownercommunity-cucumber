@@ -78,6 +78,8 @@ When('{pronoun} creates a booking schedule for the property with a past date', f
 });
 
 When('{pronoun} updates a booking schedule for the property', function (actor: Actor) {
+  const property = actor.abilityTo(ManageCommunityProperty).get();
+
   const startDate = new Date()
   startDate.setDate(startDate.getDate() + 15);
   this.bookingStartDate = startDate;
@@ -85,11 +87,8 @@ When('{pronoun} updates a booking schedule for the property', function (actor: A
   endDate.setDate(endDate.getDate() + 21);
   this.bookingEndDate = endDate;
 
-  const property = this.community.propertyList[0];
+  property.updateBookinhSchedule(0, startDate, endDate);
 
-  if (property.owners.includes(actor)) {
-    property.updateBookinhSchedule(0, startDate, endDate);
-  }
 });
 
 When('{pronoun} updates a booking schedule for the property with a past date', function (actor: Actor) {
@@ -140,9 +139,11 @@ Then('the second booking schedule should be created successfully', async functio
   );
 });
 
-Then('the booking schedule should be updated successfully', function () {
-  assert.strictEqual(this.community.propertyList[0].bookingSchedule[0].startDate, this.bookingStartDate);
-  assert.strictEqual(this.community.propertyList[0].bookingSchedule[0].endDate, this.bookingEndDate);
+Then('the booking schedule should be updated successfully', async function () {
+  await actorInTheSpotlight().attemptsTo(
+    Ensure.that(BookingScheduleStartDate.forProperty(), equals(this.bookingStartDate)),
+    Ensure.that(BookingScheduleEndDate.forProperty(), equals(this.bookingEndDate))
+  )
 });
 
 Then('the booking schedule should not be updated successfully', function () {
@@ -175,5 +176,21 @@ class BookingScheduleCount {
     const property = actorInTheSpotlight().abilityTo(ManageCommunityProperty).get();
     const bookingSchedule = property.bookingSchedule;
     return bookingSchedule.length;
+  }
+}
+
+class BookingScheduleStartDate {
+  static async forProperty() {
+    const property = actorInTheSpotlight().abilityTo(ManageCommunityProperty).get();
+    const bookingSchedule = property.bookingSchedule;
+    return bookingSchedule[0].startDate;
+  }
+}
+
+class BookingScheduleEndDate {
+  static async forProperty() {
+    const property = actorInTheSpotlight().abilityTo(ManageCommunityProperty).get();
+    const bookingSchedule = property.bookingSchedule;
+    return bookingSchedule[0].endDate;
   }
 }

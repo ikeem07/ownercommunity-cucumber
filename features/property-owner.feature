@@ -30,7 +30,7 @@ Feature: Property Owner
   
   Rule: Property owners can update booking schedules for their properties.
 
-    #@tryThis
+    @tryThis
     Scenario: Property owner updates a booking schedule for their property
       Given John has a property listed with a booking schedule
       When he updates a booking schedule for the property
