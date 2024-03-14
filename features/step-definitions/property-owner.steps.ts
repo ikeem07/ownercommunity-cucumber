@@ -61,17 +61,15 @@ When('{pronoun} creates a booking schedule for the property', function (actor: A
 });
 
 When('{pronoun} creates a booking schedule for the property with a past date', function (actor: Actor) {
+  const property = actor.abilityTo(ManageCommunityProperty).get();
+
   const startDate = new Date()
   startDate.setDate(startDate.getDate() - 7);
   const endDate = new Date()
   endDate.setDate(endDate.getDate() - 1);
-
-  const property = this.community.propertyList[0];
   const bookingSchedule = new BookingSchedule(startDate, endDate);
 
-  if (property.owners.includes(actor)) {
-    property.addBookingSchedule(bookingSchedule);
-  }
+  property.addBookingSchedule(bookingSchedule);
 });
 
 When('{pronoun} updates a booking schedule for the property', function (actor: Actor) {
@@ -125,8 +123,10 @@ Then('the booking schedule should be created successfully', async function () {
   );
 });
 
-Then('the booking schedule should not be created successfully', function () {
-  assert.strictEqual(this.community.propertyList[0].bookingSchedule.length, 0);
+Then('the booking schedule should not be created successfully', async function () {
+  await actorInTheSpotlight().attemptsTo(
+    Ensure.that(BookingScheduleCount.forProperty(), equals(0))
+  );
 });
 
 Then('the second booking schedule should be created successfully', function () {

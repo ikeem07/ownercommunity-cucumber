@@ -10,7 +10,7 @@ Feature: Property Owner
       When he creates a booking schedule for the property
       Then the booking schedule should be created successfully
 
-    #@tryThis
+    @tryThis
     Scenario: Property owner creates a booking schedule for their property with a past date
       Given John has a property listed
       When he creates a booking schedule for the property with a past date
