@@ -18,9 +18,6 @@ Given('{actor} has a property listed', function (actor: Actor) {
       TakeNotes.usingAnEmptyNotepad(),
       ManageCommunityProperty.using(property)
     )
-    .attemptsTo(
-      notes().set('property', property)
-    );
 });
 
 Given('{actor} has a property listed with a booking schedule', function (actor: Actor) {
@@ -52,15 +49,15 @@ Given('{actor} has a property listed with two booking schedules', function (acto
 });
 
 When('{pronoun} creates a booking schedule for the property', function (actor: Actor) {
+  const property = actor.abilityTo(ManageCommunityProperty).get();
+
   const startDate = new Date()
   startDate.setDate(startDate.getDate() + 8);
   const endDate = new Date()
   endDate.setDate(endDate.getDate() + 14);
   const bookingSchedule = new BookingSchedule(startDate, endDate);
 
-  actor.attemptsTo(
-    notes().get('property').addBookingSchedule(bookingSchedule)
-  );
+  property.addBookingSchedule(bookingSchedule);
 });
 
 When('{pronoun} creates a booking schedule for the property with a past date', function (actor: Actor) {
@@ -124,7 +121,7 @@ When('{pronoun} updates a booking schedule for the property that overlaps with a
 
 Then('the booking schedule should be created successfully', async function () {
   await actorInTheSpotlight().attemptsTo(
-    Ensure.that(notes().get('property').bookingSchedule.length, equals(1))
+    Ensure.that(BookingScheduleCount.forProperty(), equals(1))
   );
 });
 
@@ -163,5 +160,13 @@ class ManageCommunityProperty extends Ability {
 
   get() {
     return this.property;
+  }
+}
+
+class BookingScheduleCount {
+  static async forProperty() {
+    const property = actorInTheSpotlight().abilityTo(ManageCommunityProperty).get();
+    const bookingSchedule = property.bookingSchedule;
+    return bookingSchedule.length;
   }
 }
