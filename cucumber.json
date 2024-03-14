@@ -1,0 +1,7 @@
+{
+  "default": {
+    "paths": ["features/**/*.feature"],
+    "import": ["dist/features/**/*.steps.js","dist/features/**/*.js"],
+    "tags": "@tryThis"
+  }
+}

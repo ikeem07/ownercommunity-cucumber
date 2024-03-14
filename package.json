@@ -2,10 +2,11 @@
   "name": "shouty",
   "version": "1.0.0",
   "description": "",
-  "type": "module",
   "main": "index.js",
   "scripts": {
-    "test": "cucumber-js -f @cucumber/pretty-formatter"
+    "build": "tsc",
+    "test": "cucumber-js -f @cucumber/pretty-formatter",
+    "bdd": "npm run build && cucumber-js --config ./cucumber.json"
   },
   "keywords": [],
   "author": "",
@@ -13,10 +14,15 @@
   "devDependencies": {
     "@cucumber/cucumber": "^10.3.1",
     "@cucumber/pretty-formatter": "latest",
+    "@types/assert": "^1.5.10",
     "hamjest": "^4.1.0"
   },
   "dependencies": {
+    "@serenity-js/assertions": "^3.21.0",
+    "@serenity-js/core": "^3.21.0",
+    "assert": "^2.1.0",
     "mocha": "^10.3.0",
-    "sinon": "^17.0.1"
+    "sinon": "^17.0.1",
+    "typescript": "^5.4.2"
   }
 }
