@@ -10,13 +10,13 @@ Feature: Property Owner
       When he creates a booking schedule for the property
       Then the booking schedule should be created successfully
 
-    @tryThis
+    #@tryThis
     Scenario: Property owner creates a booking schedule for their property with a past date
       Given John has a property listed
       When he creates a booking schedule for the property with a past date
       Then the booking schedule should not be created successfully
 
-    @tryThis
+    #@tryThis
     Scenario: Property owner creates a second booking schedule for their property
       Given John has a property listed with a booking schedule
       When he creates a booking schedule for the property
@@ -30,19 +30,19 @@ Feature: Property Owner
   
   Rule: Property owners can update booking schedules for their properties.
 
-    @tryThis
+    #@tryThis
     Scenario: Property owner updates a booking schedule for their property
       Given John has a property listed with a booking schedule
       When he updates a booking schedule for the property
       Then the booking schedule should be updated successfully
 
-    @tryThis
+    #@tryThis
     Scenario: Property owner updates a booking schedule for their property with a past date
       Given John has a property listed with a booking schedule
       When he updates a booking schedule for the property with a past date
       Then the booking schedule should not be updated successfully
 
-    @tryThis
+    #@tryThis
     Scenario: Property owner updates a booking schedule for their property that overlaps with an existing schedule
       Given John has a property listed with two booking schedules
       When he updates a booking schedule for the property that overlaps with an existing schedule

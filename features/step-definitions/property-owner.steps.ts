@@ -1,5 +1,6 @@
 import { Before, Given, When, Then } from '@cucumber/cucumber';
-import { Actor, TakeNotes } from '@serenity-js/core';
+import { Actor, TakeNotes, notes, actorInTheSpotlight, Ability } from '@serenity-js/core';
+import { Ensure, equals } from '@serenity-js/assertions'
 import { Community } from '../classes/community';
 import { Property } from '../classes/property';
 import { BookingSchedule } from '../classes/booking-schedule';
@@ -10,7 +11,16 @@ Before(function () {
 })
 
 Given('{actor} has a property listed', function (actor: Actor) {
-  this.community.addProperty(new Property('My Property', [actor], true));
+  const property = new Property('My Property', [actor], true);
+
+  actor
+    .whoCan(
+      TakeNotes.usingAnEmptyNotepad(),
+      ManageCommunityProperty.using(property)
+    )
+    .attemptsTo(
+      notes().set('property', property)
+    );
 });
 
 Given('{actor} has a property listed with a booking schedule', function (actor: Actor) {
@@ -46,13 +56,11 @@ When('{pronoun} creates a booking schedule for the property', function (actor: A
   startDate.setDate(startDate.getDate() + 8);
   const endDate = new Date()
   endDate.setDate(endDate.getDate() + 14);
-
-  const property = this.community.propertyList[0];
   const bookingSchedule = new BookingSchedule(startDate, endDate);
 
-  if (property.owners.includes(actor)) {
-    property.addBookingSchedule(bookingSchedule);
-  }
+  actor.attemptsTo(
+    notes().get('property').addBookingSchedule(bookingSchedule)
+  );
 });
 
 When('{pronoun} creates a booking schedule for the property with a past date', function (actor: Actor) {
@@ -114,8 +122,10 @@ When('{pronoun} updates a booking schedule for the property that overlaps with a
   }
 });
 
-Then('the booking schedule should be created successfully', function () {
-  assert.strictEqual(this.community.propertyList[0].bookingSchedule.length, 1);
+Then('the booking schedule should be created successfully', async function () {
+  await actorInTheSpotlight().attemptsTo(
+    Ensure.that(notes().get('property').bookingSchedule.length, equals(1))
+  );
 });
 
 Then('the booking schedule should not be created successfully', function () {
@@ -136,3 +146,22 @@ Then('the booking schedule should not be updated successfully', function () {
   assert.strictEqual(this.community.propertyList[0].bookingSchedule[0].endDate, this.currentBookingEndDate);
 });
 
+class ManageCommunityProperty extends Ability {
+  static using(property: Property) {
+    return new ManageCommunityProperty(property);
+  }
+
+  public constructor(
+    private property: Property
+  ) {
+    super();
+  }
+
+  set(property: Property) {
+    this.property = property;
+  }
+
+  get() {
+    return this.property;
+  }
+}
