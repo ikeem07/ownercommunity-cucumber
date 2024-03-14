@@ -23,8 +23,13 @@ Given('{actor} has a property listed', function (actor: Actor) {
 Given('{actor} has a property listed with a booking schedule', function (actor: Actor) {
   const endDate = new Date()
   endDate.setDate(endDate.getDate() + 7);
+  const property = new Property('My Property', [actor], true, [new BookingSchedule(new Date(), endDate)])
 
-  this.community.addProperty(new Property('My Property', [actor], true, [new BookingSchedule(new Date(), endDate)]));
+  actor
+    .whoCan(
+      TakeNotes.usingAnEmptyNotepad(),
+      ManageCommunityProperty.using(property)
+    )
 });
 
 Given('{actor} has a property listed with two booking schedules', function (actor: Actor) {
@@ -129,8 +134,10 @@ Then('the booking schedule should not be created successfully', async function (
   );
 });
 
-Then('the second booking schedule should be created successfully', function () {
-  assert.strictEqual(this.community.propertyList[0].bookingSchedule.length, 2);
+Then('the second booking schedule should be created successfully', async function () {
+  await actorInTheSpotlight().attemptsTo(
+    Ensure.that(BookingScheduleCount.forProperty(), equals(2))
+  );
 });
 
 Then('the booking schedule should be updated successfully', function () {
